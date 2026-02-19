@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video & Design Utility Suite | Aspect Ratio, Resolution, FPS, DPI/PPI</title>
+  <meta name="description" content="Professional video and design utility tools in one place: aspect ratio calculator, resolution converter, frame rate slow-motion calculator, and DPI/PPI print calculator." />
+  <meta name="keywords" content="aspect ratio calculator, resolution converter, frame rate calculator, slow motion calculator, dpi calculator, ppi calculator, print resolution, video editor tools, design tools" />
+  <meta name="author" content="Video Design Utility Suite" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://example.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Video & Design Utility Suite" />
+  <meta property="og:description" content="All-in-one calculators for video editors and designers." />
+  <meta property="og:url" content="https://example.com/" />
+  <meta property="og:image" content="https://example.com/preview.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Video & Design Utility Suite" />
+  <meta name="twitter:description" content="Aspect ratio, resolution, frame rate, and print DPI/PPI tools." />
+  <meta name="twitter:image" content="https://example.com/preview.jpg" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Manrope', 'ui-sans-serif', 'system-ui']
+          },
+          colors: {
+            panel: '#121826',
+            panelSoft: '#1a2234',
+            accent: '#38bdf8'
+          },
+          boxShadow: {
+            glow: '0 10px 30px rgba(56, 189, 248, 0.18)'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.16), transparent 35%),
+        radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.12), transparent 30%),
+        #0a0f1a;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(26, 34, 52, 0.9), rgba(18, 24, 38, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    .input {
+      width: 100%;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.7);
+      color: #e2e8f0;
+      padding: 0.65rem 0.8rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input:focus {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .btn {
+      border-radius: 0.75rem;
+      padding: 0.6rem 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(30, 41, 59, 0.65);
+      color: #cbd5e1;
+      transition: 0.2s;
+    }
+    .btn:hover { border-color: rgba(56, 189, 248, 0.8); color: #e0f2fe; }
+    .btn.active { background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.95); color: #e0f2fe; }
+    .result {
+      border: 1px dashed rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.45);
+      border-radius: 0.8rem;
+      padding: 0.8rem;
+    }
+  </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <header class="mb-10 text-center">
+      <p class="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-400/10 px-3 py-1 text-xs sm:text-sm text-sky-200 mb-4">Professional Toolkit for Video Editors & Designers</p>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Video & Design Utility Suite</h1>
+      <p class="mt-4 text-slate-300 max-w-3xl mx-auto">Fast, accurate, and production-ready calculations for aspect ratios, resolution scaling, frame-rate slow motion, and print DPI/PPI.</p>
+    </header>
+
+    <section class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <article class="card rounded-2xl p-5 sm:p-6 shadow-glow">
+        <h2 class="text-xl font-bold">1) Aspect Ratio Calculator</h2>
+        <p class="text-slate-400 mt-1 mb-4 text-sm">Pick a common ratio or set a custom ratio and solve missing width/height.</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4" id="ratioButtons">
+          <button class="btn ratio-preset active" data-rw="16" data-rh="9">16:9</button>
+          <button class="btn ratio-preset" data-rw="1" data-rh="1">1:1</button>
+          <button class="btn ratio-preset" data-rw="4" data-rh="5">4:5</button>
+          <button class="btn ratio-preset" data-rw="9" data-rh="16">9:16</button>
+          <button class="btn ratio-preset" data-rw="21" data-rh="9">21:9</button>
+          <button class="btn ratio-preset" data-rw="3" data-rh="2">3:2</button>
+          <button class="btn ratio-preset" data-rw="4" data-rh="3">4:3</button>
+          <button class="btn ratio-preset" data-rw="2.39" data-rh="1">2.39:1</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-sm text-slate-300">Ratio Width</label>
+            <input id="ratioW" class="input" type="number" step="0.01" value="16" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Ratio Height</label>
+            <input id="ratioH" class="input" type="number" step="0.01" value="9" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="text-sm text-slate-300">Width (px)</label>
+            <input id="aspectWidth" class="input" type="number" placeholder="e.g. 1920" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Height (px)</label>
+            <input id="aspectHeight" class="input" type="number" placeholder="e.g. 1080" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button id="calcHeight" class="btn">Calculate Height</button>
+          <button id="calcWidth" class="btn">Calculate Width</button>
+        </div>
+
+        <div class="result mt-4">
+          <p class="text-sm text-slate-300" id="aspectResult">Result will appear here.</p>
+        </div>
+      </article>
+
+      <article class="card rounded-2xl p-5 sm:p-6">
+        <h2 class="text-xl font-bold">2) Resolution Converter</h2>
+        <p class="text-slate-400 mt-1 mb-4 text-sm">Scale source dimensions to standard outputs while preserving aspect ratio.</p>
+
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-sm text-slate-300">Source Width (px)</label>
+            <input id="resWidth" class="input" type="number" value="1920" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Source Height (px)</label>
+            <input id="resHeight" class="input" type="number" value="1080" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+          <button class="btn res-target" data-h="720">720p</button>
+          <button class="btn res-target active" data-h="1080">1080p</button>
+          <button class="btn res-target" data-h="1440">1440p</button>
+          <button class="btn res-target" data-h="2160">4K (2160p)</button>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-sm text-slate-300">Or Scale Percentage (%)</label>
+          <input id="scalePercent" class="input" type="number" value="100" min="1" />
+        </div>
+
+        <button id="calcRes" class="btn w-full">Convert Resolution</button>
+
+        <div class="result mt-4 space-y-1 text-sm text-slate-300" id="resResult">
+          <p>Converted dimensions will appear here.</p>
+        </div>
+      </article>
+
+      <article class="card rounded-2xl p-5 sm:p-6">
+        <h2 class="text-xl font-bold">3) Frame Rate Calculator</h2>
+        <p class="text-slate-400 mt-1 mb-4 text-sm">Compute slow-motion speed and runtime when footage is interpreted at another FPS.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="text-sm text-slate-300">Recorded FPS</label>
+            <input id="fpsRecord" class="input" type="number" value="120" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Timeline FPS</label>
+            <input id="fpsTimeline" class="input" type="number" value="24" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Clip Length (sec)</label>
+            <input id="clipLength" class="input" type="number" value="10" />
+          </div>
+        </div>
+
+        <button id="calcFps" class="btn w-full">Calculate Slow-Mo</button>
+
+        <div class="result mt-4 text-sm text-slate-300 space-y-1" id="fpsResult">
+          <p>Slow-motion details will appear here.</p>
+        </div>
+      </article>
+
+      <article class="card rounded-2xl p-5 sm:p-6">
+        <h2 class="text-xl font-bold">4) DPI / PPI Print Calculator</h2>
+        <p class="text-slate-400 mt-1 mb-4 text-sm">Check print sharpness (PPI) and maximum print size at target DPI.</p>
+
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-sm text-slate-300">Image Width (px)</label>
+            <input id="pxWidth" class="input" type="number" value="6000" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Image Height (px)</label>
+            <input id="pxHeight" class="input" type="number" value="4000" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="text-sm text-slate-300">Print W (in)</label>
+            <input id="printW" class="input" type="number" step="0.1" value="20" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Print H (in)</label>
+            <input id="printH" class="input" type="number" step="0.1" value="13.3" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Target DPI</label>
+            <input id="targetDpi" class="input" type="number" value="300" />
+          </div>
+        </div>
+
+        <button id="calcDpi" class="btn w-full">Calculate DPI / PPI</button>
+
+        <div class="result mt-4 text-sm text-slate-300 space-y-1" id="dpiResult">
+          <p>DPI/PPI data will appear here.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+      <div class="card rounded-xl p-4">
+        <h3 class="font-semibold text-slate-100">Google AdSense Placeholder</h3>
+        <p class="text-sm text-slate-400 mt-1 mb-2">Replace with your AdSense script and ad unit.</p>
+        <div class="rounded-lg border border-dashed border-slate-600 p-4 text-sm text-slate-500">
+          &lt;!-- AdSense Script / Ad Unit Goes Here --&gt;
+        </div>
+      </div>
+      <div class="card rounded-xl p-4">
+        <h3 class="font-semibold text-slate-100">Support / Donations</h3>
+        <p class="text-sm text-slate-400 mt-1">Add your support links:</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <a href="#" class="btn">Buy Me a Coffee</a>
+          <a href="#" class="btn">Patreon</a>
+          <a href="#" class="btn">PayPal</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-10 text-center text-xs text-slate-500">
+      <p>Built for production workflows in editing, motion, and print design.</p>
+    </footer>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const round = (num) => Number(num).toFixed(2).replace(/\.00$/, '');
+
+    const ratioButtons = document.querySelectorAll('.ratio-preset');
+    ratioButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        ratioButtons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        $('ratioW').value = btn.dataset.rw;
+        $('ratioH').value = btn.dataset.rh;
+      });
+    });
+
+    function getRatio() {
+      const rw = parseFloat($('ratioW').value);
+      const rh = parseFloat($('ratioH').value);
+      if (!rw || !rh || rw <= 0 || rh <= 0) return null;
+      return rw / rh;
+    }
+
+    $('calcHeight').addEventListener('click', () => {
+      const ratio = getRatio();
+      const w = parseFloat($('aspectWidth').value);
+      if (!ratio || !w || w <= 0) {
+        $('aspectResult').textContent = 'Enter valid ratio and width values.';
+        return;
+      }
+      const h = w / ratio;
+      $('aspectHeight').value = Math.round(h);
+      $('aspectResult').textContent = `${Math.round(w)} × ${Math.round(h)} px at ratio ${$('ratioW').value}:${$('ratioH').value}`;
+    });
+
+    $('calcWidth').addEventListener('click', () => {
+      const ratio = getRatio();
+      const h = parseFloat($('aspectHeight').value);
+      if (!ratio || !h || h <= 0) {
+        $('aspectResult').textContent = 'Enter valid ratio and height values.';
+        return;
+      }
+      const w = h * ratio;
+      $('aspectWidth').value = Math.round(w);
+      $('aspectResult').textContent = `${Math.round(w)} × ${Math.round(h)} px at ratio ${$('ratioW').value}:${$('ratioH').value}`;
+    });
+
+    const resButtons = document.querySelectorAll('.res-target');
+    let selectedTargetH = 1080;
+    resButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        resButtons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTargetH = parseFloat(btn.dataset.h);
+      });
+    });
+
+    $('calcRes').addEventListener('click', () => {
+      const w = parseFloat($('resWidth').value);
+      const h = parseFloat($('resHeight').value);
+      const percent = parseFloat($('scalePercent').value);
+      if (!w || !h || w <= 0 || h <= 0 || !percent || percent <= 0) {
+        $('resResult').innerHTML = '<p>Enter valid source dimensions and scale.</p>';
+        return;
+      }
+
+      const ar = w / h;
+      const targetW = Math.round(selectedTargetH * ar);
+      const scaledW = Math.round(w * (percent / 100));
+      const scaledH = Math.round(h * (percent / 100));
+
+      $('resResult').innerHTML = `
+        <p><strong>Aspect Ratio:</strong> ${round(ar)}:1</p>
+        <p><strong>Target by Height (${selectedTargetH}p):</strong> ${targetW} × ${selectedTargetH}</p>
+        <p><strong>Scaled (${percent}%):</strong> ${scaledW} × ${scaledH}</p>
+      `;
+    });
+
+    $('calcFps').addEventListener('click', () => {
+      const recorded = parseFloat($('fpsRecord').value);
+      const timeline = parseFloat($('fpsTimeline').value);
+      const clip = parseFloat($('clipLength').value);
+      if (!recorded || !timeline || !clip || recorded <= 0 || timeline <= 0 || clip <= 0) {
+        $('fpsResult').innerHTML = '<p>Enter valid FPS and clip length values.</p>';
+        return;
+      }
+
+      const speedPercent = (timeline / recorded) * 100;
+      const slowdownFactor = recorded / timeline;
+      const newDuration = clip * slowdownFactor;
+
+      $('fpsResult').innerHTML = `
+        <p><strong>Playback Speed:</strong> ${round(speedPercent)}%</p>
+        <p><strong>Slow-Motion Factor:</strong> ${round(slowdownFactor)}x</p>
+        <p><strong>New Clip Duration:</strong> ${round(newDuration)} sec</p>
+      `;
+    });
+
+    $('calcDpi').addEventListener('click', () => {
+      const pxW = parseFloat($('pxWidth').value);
+      const pxH = parseFloat($('pxHeight').value);
+      const printW = parseFloat($('printW').value);
+      const printH = parseFloat($('printH').value);
+      const targetDpi = parseFloat($('targetDpi').value);
+
+      if (!pxW || !pxH || !printW || !printH || !targetDpi || pxW <= 0 || pxH <= 0 || printW <= 0 || printH <= 0 || targetDpi <= 0) {
+        $('dpiResult').innerHTML = '<p>Enter valid pixel, print size, and target DPI values.</p>';
+        return;
+      }
+
+      const ppiW = pxW / printW;
+      const ppiH = pxH / printH;
+      const maxPrintW = pxW / targetDpi;
+      const maxPrintH = pxH / targetDpi;
+      const quality = Math.min(ppiW, ppiH) >= 300 ? 'Excellent print quality' : Math.min(ppiW, ppiH) >= 200 ? 'Good print quality' : 'Best for posters / distance viewing';
+
+      $('dpiResult').innerHTML = `
+        <p><strong>Current PPI:</strong> ${round(ppiW)} (W), ${round(ppiH)} (H)</p>
+        <p><strong>Max Print @ ${targetDpi} DPI:</strong> ${round(maxPrintW)}" × ${round(maxPrintH)}"</p>
+        <p><strong>Quality Estimate:</strong> ${quality}</p>
+      `;
+    });
+
+    // Auto-run once for useful defaults.
+    $('calcRes').click();
+    $('calcFps').click();
+    $('calcDpi').click();
+  </script>
+</body>
+</html>
